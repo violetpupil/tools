@@ -4,6 +4,8 @@ import "github.com/spf13/cobra"
 
 type runCmd struct {
 	*baseCmd
+
+	roomURL string
 }
 
 func newRunCmd() *runCmd {
@@ -19,9 +21,12 @@ func newRunCmd() *runCmd {
 	}
 	cc.baseCmd = newBaseCmd(cmd)
 
+	cmd.Flags().StringVarP(&cc.roomURL, "url", "u", "", "room url")
+
 	return cc
 }
 
 func (c *runCmd) run() error {
+	// TODO
 	return nil
 }
