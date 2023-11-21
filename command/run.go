@@ -9,7 +9,6 @@ type runCmd struct {
 func newRunCmd() *runCmd {
 	cc := &runCmd{}
 
-	// TODO
 	cmd := &cobra.Command{
 		Use:   "run",
 		Short: "Start the olive engine.",
@@ -24,6 +23,5 @@ func newRunCmd() *runCmd {
 }
 
 func (c *runCmd) run() error {
-	// TODO
 	return nil
 }
