@@ -6,6 +6,7 @@ var sites sync.Map
 
 type Site interface {
 	Name() string
+	RoomID(RoomURL) string
 }
 
 func registerSite(siteID string, site Site) {
