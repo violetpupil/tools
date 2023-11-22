@@ -1,4 +1,4 @@
-package sites
+package olivetv
 
 import "sync"
 
@@ -14,6 +14,7 @@ func registerSite(siteID string, site Site) {
 	}
 }
 
+// Sniff 获取网站实例
 func Sniff(siteID string) (Site, bool) {
 	s, ok := sites.Load(siteID)
 	if !ok {
