@@ -6,6 +6,7 @@ type runCmd struct {
 	*baseCmd
 
 	roomURL string
+	proxy   string
 }
 
 func newRunCmd() *runCmd {
@@ -22,6 +23,7 @@ func newRunCmd() *runCmd {
 	cc.baseCmd = newBaseCmd(cmd)
 
 	cmd.Flags().StringVarP(&cc.roomURL, "url", "u", "", "room url")
+	cmd.Flags().StringVarP(&cc.proxy, "proxy", "p", "", "proxy url")
 
 	return cc
 }
