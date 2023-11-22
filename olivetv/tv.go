@@ -2,6 +2,7 @@ package olivetv
 
 import (
 	"errors"
+	"fmt"
 	"net/url"
 	"strings"
 
@@ -9,13 +10,25 @@ import (
 )
 
 var (
-	ErrSiteInvalid = errors.New("site invalid")
+	ErrNotSupported = errors.New("streamer not supported")
+	ErrSiteInvalid  = errors.New("site invalid")
 )
 
 // TV 直播间
 type TV struct {
 	SiteID string
 	RoomID string
+}
+
+func NewWithURL(roomURL string) (*TV, error) {
+	u := RoomURL(roomURL)
+	t, err := u.Stream()
+	if err != nil {
+		err = fmt.Errorf("%s (err msg = %s)", ErrNotSupported, err)
+		return nil, err
+	}
+
+	return t, nil
 }
 
 // RoomURL 直播间地址
