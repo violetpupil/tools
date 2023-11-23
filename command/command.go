@@ -26,4 +26,4 @@ func (b *commandsBuilder) addAll() *commandsBuilder {
 	return b
 }
 
-func Execute([]string) {}
+func Execute() {}
