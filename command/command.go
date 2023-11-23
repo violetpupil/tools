@@ -22,7 +22,7 @@ func (b *commandsBuilder) addCommands(commands ...cmder) *commandsBuilder {
 }
 
 func (b *commandsBuilder) addAll() *commandsBuilder {
-	// TODO
+	b.addCommands(newRunCmd())
 	return b
 }
 
