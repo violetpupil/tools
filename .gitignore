@@ -2,3 +2,5 @@ node_modules
 # nextjs运行文件
 .next
 next-env.d.ts
+# 临时文件
+tmp*
