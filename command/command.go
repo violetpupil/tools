@@ -1,6 +1,11 @@
 package command
 
-import "github.com/spf13/cobra"
+import (
+	"fmt"
+	"os"
+
+	"github.com/spf13/cobra"
+)
 
 // cmder 具体命令应该实现该接口，获取 cobra.Command 对象
 type cmder interface {
@@ -26,4 +31,22 @@ func (b *commandsBuilder) addAll() *commandsBuilder {
 	return b
 }
 
-func Execute() {}
+func (b *commandsBuilder) build() *cobra.Command {
+	root := newOliveCmd().getCommand()
+	for _, c := range b.commands {
+		cmd := c.getCommand()
+		if cmd == nil {
+			continue
+		}
+		root.AddCommand(cmd)
+	}
+	return root
+}
+
+func Execute() {
+	_, err := newCommandsBuilder().addAll().build().ExecuteC()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
