@@ -9,10 +9,13 @@ import (
 
 	"github.com/pelletier/go-toml/v2"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type runCmd struct {
 	*baseCmd
+
+	cfgFilepath string
 
 	roomURL string
 	proxy   string
@@ -30,6 +33,8 @@ func newRunCmd() *runCmd {
 		},
 	}
 	cc.baseCmd = newBaseCmd(cmd)
+
+	cmd.Flags().StringVarP(&cc.cfgFilepath, "filepath", "f", "", "set config.toml filepath")
 
 	cmd.Flags().StringVarP(&cc.roomURL, "url", "u", "", "room url")
 	cmd.Flags().StringVarP(&cc.proxy, "proxy", "p", "", "proxy url")
@@ -55,8 +60,18 @@ func newCompositeConfigFromTerm() {
 }
 
 // newCompositeConfigFromFile 加载配置文件
-func newCompositeConfigFromFile() {
+func newCompositeConfigFromFile(file string) (*CompositeConfig, error) {
+	viper.SetConfigFile(file)
+	cfg := new(CompositeConfig)
+	if err := viper.ReadInConfig(); err != nil {
+		return nil, err
+	}
+	if err := viper.Unmarshal(cfg); err != nil {
+		return nil, err
+	}
+
 	// TODO
+	return cfg, nil
 }
 
 // checkAndFix 合并默认全局配置
