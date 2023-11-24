@@ -14,9 +14,12 @@ func init() {
 	DefaultConfig.SaveDir = wd
 }
 
+// Config 整体配置
 type Config struct {
-	LogDir  string
-	SaveDir string
+	LogDir string
+
+	// 直播间设置的初始值
+	SaveDir string `toml:"-"`
 }
 
 // CheckAndFix 检查配置，并合并默认配置

@@ -14,7 +14,7 @@ var (
 	ErrSiteInvalid  = errors.New("site invalid")
 )
 
-// TV 直播间
+// TV 直播间信息
 type TV struct {
 	SiteID string
 	RoomID string
