@@ -49,6 +49,16 @@ type CompositeConfig struct {
 	Shows  []*kernel.Show
 }
 
+// newCompositeConfigFromTerm 从终端获取配置参数
+func newCompositeConfigFromTerm() {
+	// TODO
+}
+
+// newCompositeConfigFromFile 加载配置文件
+func newCompositeConfigFromFile() {
+	// TODO
+}
+
 // checkAndFix 合并默认全局配置
 // 检查直播间字段，没有设置的话，设置初始值
 func (cfg *CompositeConfig) checkAndFix() {
