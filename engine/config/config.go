@@ -14,7 +14,7 @@ func init() {
 	DefaultConfig.SaveDir = wd
 }
 
-// Config 整体配置
+// Config 全局配置
 type Config struct {
 	LogDir string
 

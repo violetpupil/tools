@@ -1,6 +1,11 @@
 package command
 
-import "github.com/spf13/cobra"
+import (
+	"olive/engine/config"
+	"olive/engine/kernel"
+
+	"github.com/spf13/cobra"
+)
 
 type runCmd struct {
 	*baseCmd
@@ -31,4 +36,11 @@ func newRunCmd() *runCmd {
 func (c *runCmd) run() error {
 	// TODO
 	return nil
+}
+
+// CompositeConfig 配置文件
+// 包括全局配置和每个直播间的配置
+type CompositeConfig struct {
+	Config config.Config
+	Shows  []kernel.Show
 }
