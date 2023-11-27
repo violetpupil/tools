@@ -18,7 +18,7 @@ func init() {
 type Config struct {
 	LogDir string
 
-	// 直播间设置的初始值
+	// 直播间配置的初始值
 	SaveDir string `toml:"-"`
 }
 

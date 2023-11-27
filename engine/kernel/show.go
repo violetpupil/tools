@@ -5,7 +5,7 @@ import (
 	"olive/engine/config"
 )
 
-// Show 直播间
+// Show 直播间配置
 type Show struct {
 	// 信息
 	Platform     string `json:"platform"`      // 网站 id
@@ -13,7 +13,7 @@ type Show struct {
 	StreamerName string `json:"streamer_name"` // 网站名
 	ID           string `json:"show_id"`       // olive 直播间 id
 
-	// 设置
+	// 配置
 	SaveDir   string `json:"save_dir"`   // 视频存放目录
 	SplitRule string `json:"split_rule"` // 视频分段规则
 }
