@@ -55,7 +55,7 @@ type CompositeConfig struct {
 }
 
 // newCompositeConfigFromTerm 从终端获取配置参数
-func newCompositeConfigFromTerm() {
+func newCompositeConfigFromTerm(roomURL, proxy string) {
 	// TODO
 }
 
@@ -69,8 +69,7 @@ func newCompositeConfigFromFile(file string) (*CompositeConfig, error) {
 	if err := viper.Unmarshal(cfg); err != nil {
 		return nil, err
 	}
-
-	// TODO
+	cfg.checkAndFix()
 	return cfg, nil
 }
 
