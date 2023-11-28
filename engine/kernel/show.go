@@ -16,6 +16,7 @@ type Show struct {
 	// 配置
 	SaveDir   string `json:"save_dir"`   // 视频存放目录
 	SplitRule string `json:"split_rule"` // 视频分段规则
+	Proxy     string `json:"proxy"`      // 代理
 }
 
 // CheckAndFix 检查字段，没有设置的话，设置初始值

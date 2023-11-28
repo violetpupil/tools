@@ -18,6 +18,9 @@ var (
 type TV struct {
 	SiteID string
 	RoomID string
+
+	// 获取信息所需参数
+	proxy string
 }
 
 func NewWithURL(roomURL string) (*TV, error) {
