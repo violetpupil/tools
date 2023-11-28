@@ -19,7 +19,9 @@ type TV struct {
 	SiteID string
 	RoomID string
 
-	roomName string
+	roomName  string // 直播标题
+	streamURL string // 拉流地址
+	roomOn    bool   // 是否在直播
 
 	// 获取信息所需参数
 	proxy string

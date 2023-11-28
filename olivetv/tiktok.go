@@ -90,9 +90,27 @@ func (this *tiktok) set(tv *TV) error {
 	if err != nil {
 		return err
 	}
+	// 直播标题
 	data := ag.Data
-	tv.roomName = data.Title
-
-	// TODO
+	if data.Title != "" {
+		tv.roomName = data.Title
+	} else {
+		tv.roomName = tv.RoomID
+	}
+	// 拉流地址
+	candi := []string{
+		data.StreamURL.RtmpPullURL,
+		data.StreamURL.FlvPullURL.FullHd1,
+		data.StreamURL.FlvPullURL.Hd1,
+		data.StreamURL.FlvPullURL.Sd1,
+		data.StreamURL.FlvPullURL.Sd2,
+	}
+	for _, v := range candi {
+		if v != "" {
+			tv.roomOn = true
+			tv.streamURL = v
+			break
+		}
+	}
 	return nil
 }
