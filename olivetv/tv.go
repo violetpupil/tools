@@ -19,6 +19,8 @@ type TV struct {
 	SiteID string
 	RoomID string
 
+	roomName string
+
 	// 获取信息所需参数
 	proxy string
 }
