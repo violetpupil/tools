@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"olive/engine/config"
 	"olive/engine/kernel"
+	"olive/engine/log"
 	"os"
 	"time"
 
@@ -43,6 +44,19 @@ func newRunCmd() *runCmd {
 }
 
 func (c *runCmd) run() error {
+	var cfg *CompositeConfig
+	var err error
+	if c.roomURL != "" {
+		cfg, err = newCompositeConfigFromTerm(c)
+	} else {
+		cfg, err = newCompositeConfigFromFile(c)
+	}
+	if err != nil {
+		return err
+	}
+
+	log.InitLogger(cfg.Config.LogDir)
+
 	// TODO
 	return nil
 }
@@ -55,25 +69,25 @@ type CompositeConfig struct {
 }
 
 // newCompositeConfigFromTerm 从终端获取配置参数
-func newCompositeConfigFromTerm(roomURL, proxy string) (*CompositeConfig, error) {
-	show, err := kernel.NewShow(roomURL, proxy)
+func newCompositeConfigFromTerm(cmd *runCmd) (*CompositeConfig, error) {
+	show, err := kernel.NewShow(cmd.roomURL, cmd.proxy)
 	if err != nil {
 		return nil, fmt.Errorf("invalid args: %w", err)
 	}
 	shows := []*kernel.Show{show}
 
-	cc := &CompositeConfig{
+	cfg := &CompositeConfig{
 		Config: config.DefaultConfig,
 		Shows:  shows,
 	}
-	cc.checkAndFix()
-	cc.autosave()
-	return cc, nil
+	cfg.checkAndFix()
+	cfg.autosave()
+	return cfg, nil
 }
 
 // newCompositeConfigFromFile 加载配置文件
-func newCompositeConfigFromFile(file string) (*CompositeConfig, error) {
-	viper.SetConfigFile(file)
+func newCompositeConfigFromFile(cmd *runCmd) (*CompositeConfig, error) {
+	viper.SetConfigFile(cmd.cfgFilepath)
 	cfg := new(CompositeConfig)
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
