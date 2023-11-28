@@ -3,6 +3,7 @@ package kernel
 import (
 	"fmt"
 	"olive/engine/config"
+	"olive/olivetv"
 )
 
 // Show 直播间配置
@@ -17,6 +18,21 @@ type Show struct {
 	SaveDir   string `json:"save_dir"`   // 视频存放目录
 	SplitRule string `json:"split_rule"` // 视频分段规则
 	Proxy     string `json:"proxy"`      // 代理
+}
+
+func NewShow(roomURL, splitRule string) (*Show, error) {
+	tv, err := olivetv.NewWithURL(roomURL)
+	if err != nil {
+		return nil, err
+	}
+
+	show := &Show{
+		StreamerName: tv.SiteName,
+		Platform:     tv.SiteID,
+		RoomID:       tv.RoomID,
+		SplitRule:    splitRule,
+	}
+	return show, nil
 }
 
 // CheckAndFix 检查字段，没有设置的话，设置初始值

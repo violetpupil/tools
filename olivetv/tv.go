@@ -16,8 +16,9 @@ var (
 
 // TV 直播间
 type TV struct {
-	SiteID string
-	RoomID string
+	SiteID   string
+	SiteName string
+	RoomID   string
 
 	roomName  string // 直播标题
 	streamURL string // 拉流地址
@@ -63,6 +64,7 @@ func (this RoomURL) Stream() (*TV, error) {
 	if !ok {
 		return nil, ErrSiteInvalid
 	}
+	siteName := site.Name()
 	roomID := site.RoomID(this)
-	return &TV{SiteID: siteID, RoomID: roomID}, nil
+	return &TV{SiteID: siteID, SiteName: siteName, RoomID: roomID}, nil
 }
