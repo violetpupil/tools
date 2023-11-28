@@ -55,8 +55,20 @@ type CompositeConfig struct {
 }
 
 // newCompositeConfigFromTerm 从终端获取配置参数
-func newCompositeConfigFromTerm(roomURL, proxy string) {
-	// TODO
+func newCompositeConfigFromTerm(roomURL, proxy string) (*CompositeConfig, error) {
+	show, err := kernel.NewShow(roomURL, proxy)
+	if err != nil {
+		return nil, fmt.Errorf("invalid args: %w", err)
+	}
+	shows := []*kernel.Show{show}
+
+	cc := &CompositeConfig{
+		Config: config.DefaultConfig,
+		Shows:  shows,
+	}
+	cc.checkAndFix()
+	cc.autosave()
+	return cc, nil
 }
 
 // newCompositeConfigFromFile 加载配置文件

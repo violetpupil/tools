@@ -20,7 +20,7 @@ type Show struct {
 	Proxy     string `json:"proxy"`      // 代理
 }
 
-func NewShow(roomURL, splitRule string) (*Show, error) {
+func NewShow(roomURL, proxy string) (*Show, error) {
 	tv, err := olivetv.NewWithURL(roomURL)
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func NewShow(roomURL, splitRule string) (*Show, error) {
 		StreamerName: tv.SiteName,
 		Platform:     tv.SiteID,
 		RoomID:       tv.RoomID,
-		SplitRule:    splitRule,
+		Proxy:        proxy,
 	}
 	return show, nil
 }
