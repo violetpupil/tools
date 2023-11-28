@@ -8,6 +8,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/pelletier/go-toml/v2"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -56,6 +57,7 @@ func (c *runCmd) run() error {
 	}
 
 	log.InitLogger(cfg.Config.LogDir)
+	cfg.watch()
 
 	// TODO
 	return nil
@@ -114,6 +116,26 @@ func (cfg *CompositeConfig) autosave() error {
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(fmt.Sprintf("config-%d.toml", time.Now().Unix()), bs, 0666)
+	cfgFilepath := fmt.Sprintf("config-%d.toml", time.Now().Unix())
+	err = os.WriteFile(cfgFilepath, bs, 0666)
+	if err != nil {
+		return err
+	}
+
+	viper.SetConfigFile(cfgFilepath)
+	err = viper.ReadInConfig()
 	return err
+}
+
+func (cfg *CompositeConfig) watch() {
+	viper.OnConfigChange(func(e fsnotify.Event) {
+		log.Logger.Infof("config file[%s] is changed", e.Name)
+
+		compoCfg := new(CompositeConfig)
+		viper.Unmarshal(compoCfg)
+		compoCfg.checkAndFix()
+
+		*cfg = *compoCfg
+	})
+	viper.WatchConfig()
 }
