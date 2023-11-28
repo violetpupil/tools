@@ -3,7 +3,7 @@ package kernel
 import (
 	"fmt"
 	"olive/engine/config"
-	"olive/olivetv"
+	"olive/foundation/olivetv"
 )
 
 // Show 直播间配置
