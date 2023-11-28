@@ -1,9 +1,17 @@
 package kernel
 
-type Kernel struct{}
+import (
+	"github.com/sirupsen/logrus"
+)
 
-func New() *Kernel {
-	return &Kernel{}
+type Kernel struct {
+	log *logrus.Logger
+}
+
+func New(log *logrus.Logger) *Kernel {
+	return &Kernel{
+		log: log,
+	}
 }
 
 func (k *Kernel) Run() {}
