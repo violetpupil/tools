@@ -1,5 +1,7 @@
 package common
 
+import "olive/engine/config"
+
 type EventTypeID uint32
 
 var EventType = struct {
@@ -28,4 +30,11 @@ func (et EventTypeID) String() string {
 		return "remove recorder"
 	}
 	return "undefined"
+}
+
+// Bout 直播间事件
+type Bout interface {
+	GetID() config.ID
+	GetPlatform() string
+	GetRoomID() string
 }
