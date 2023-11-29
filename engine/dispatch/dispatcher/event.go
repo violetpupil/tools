@@ -1,8 +1,8 @@
 package dispatcher
 
-import "olive/engine/dispatch/enum"
+import "olive/engine/dispatch/common"
 
 type Event struct {
-	Type   enum.EventTypeID
+	Type   common.EventTypeID
 	Object any
 }

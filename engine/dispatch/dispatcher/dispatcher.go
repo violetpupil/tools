@@ -1,9 +1,9 @@
 package dispatcher
 
-import "olive/engine/dispatch/enum"
+import "olive/engine/dispatch/common"
 
 type Dispatcher interface {
 	Dispatch(event *Event) error
-	DispatcherType() enum.DispatcherTypeID
-	DispatchTypes() []enum.EventTypeID
+	DispatcherType() common.DispatcherTypeID
+	DispatchTypes() []common.EventTypeID
 }

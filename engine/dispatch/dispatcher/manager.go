@@ -2,7 +2,7 @@ package dispatcher
 
 import (
 	"errors"
-	"olive/engine/dispatch/enum"
+	"olive/engine/dispatch/common"
 
 	"github.com/sirupsen/logrus"
 )
@@ -10,26 +10,26 @@ import (
 var SharedManager *Manager
 
 type Manager struct {
-	savers             map[enum.DispatcherTypeID]Dispatcher
-	dispatchFuncSavers map[enum.EventTypeID]Dispatcher
+	savers             map[common.DispatcherTypeID]Dispatcher
+	dispatchFuncSavers map[common.EventTypeID]Dispatcher
 
 	log *logrus.Logger
 }
 
 func NewManager(log *logrus.Logger) *Manager {
 	return &Manager{
-		savers:             make(map[enum.DispatcherTypeID]Dispatcher),
-		dispatchFuncSavers: make(map[enum.EventTypeID]Dispatcher),
+		savers:             make(map[common.DispatcherTypeID]Dispatcher),
+		dispatchFuncSavers: make(map[common.EventTypeID]Dispatcher),
 		log:                log,
 	}
 }
 
 func (m *Manager) Register(ds ...Dispatcher) {
 	if m.savers == nil {
-		m.savers = map[enum.DispatcherTypeID]Dispatcher{}
+		m.savers = map[common.DispatcherTypeID]Dispatcher{}
 	}
 	if m.dispatchFuncSavers == nil {
-		m.dispatchFuncSavers = map[enum.EventTypeID]Dispatcher{}
+		m.dispatchFuncSavers = map[common.EventTypeID]Dispatcher{}
 	}
 
 	for _, d := range ds {
@@ -46,9 +46,9 @@ func (m *Manager) Register(ds ...Dispatcher) {
 	}
 }
 
-func (m *Manager) RegisterFunc(typ enum.EventTypeID, d Dispatcher) {
+func (m *Manager) RegisterFunc(typ common.EventTypeID, d Dispatcher) {
 	if m.dispatchFuncSavers == nil {
-		m.dispatchFuncSavers = map[enum.EventTypeID]Dispatcher{}
+		m.dispatchFuncSavers = map[common.EventTypeID]Dispatcher{}
 	}
 	_, ok := m.dispatchFuncSavers[typ]
 	if ok {
@@ -57,7 +57,7 @@ func (m *Manager) RegisterFunc(typ enum.EventTypeID, d Dispatcher) {
 	m.dispatchFuncSavers[typ] = d
 }
 
-func (m *Manager) Dispatcher(typ enum.DispatcherTypeID) (Dispatcher, bool) {
+func (m *Manager) Dispatcher(typ common.DispatcherTypeID) (Dispatcher, bool) {
 	v, ok := m.savers[typ]
 	return v, ok
 }

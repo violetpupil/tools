@@ -1,4 +1,4 @@
-package enum
+package common
 
 type DispatcherTypeID uint32
 

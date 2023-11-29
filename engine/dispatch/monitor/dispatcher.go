@@ -2,8 +2,8 @@ package monitor
 
 import (
 	"olive/engine/config"
+	"olive/engine/dispatch/common"
 	"olive/engine/dispatch/dispatcher"
-	"olive/engine/dispatch/enum"
 
 	"github.com/sirupsen/logrus"
 )
@@ -25,13 +25,13 @@ func (d *Dispatcher) Dispatch(event *dispatcher.Event) error {
 	return nil
 }
 
-func (d *Dispatcher) DispatcherType() enum.DispatcherTypeID {
-	return enum.DispatcherType.Monitor
+func (d *Dispatcher) DispatcherType() common.DispatcherTypeID {
+	return common.DispatcherType.Monitor
 }
 
-func (d *Dispatcher) DispatchTypes() []enum.EventTypeID {
-	return []enum.EventTypeID{
-		enum.EventType.AddMonitor,
-		enum.EventType.RemoveMonitor,
+func (d *Dispatcher) DispatchTypes() []common.EventTypeID {
+	return []common.EventTypeID{
+		common.EventType.AddMonitor,
+		common.EventType.RemoveMonitor,
 	}
 }
