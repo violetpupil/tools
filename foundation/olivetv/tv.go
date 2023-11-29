@@ -14,6 +14,20 @@ var (
 	ErrSiteInvalid  = errors.New("site invalid")
 )
 
+type Option func(*TV)
+
+func SetCookie(cookie string) Option {
+	return func(t *TV) {
+		t.cookie = cookie
+	}
+}
+
+func SetProxy(proxy string) Option {
+	return func(t *TV) {
+		t.proxy = proxy
+	}
+}
+
 // TV 直播间
 type TV struct {
 	SiteID   string
@@ -25,10 +39,11 @@ type TV struct {
 	roomOn    bool   // 是否在直播
 
 	// 获取信息所需参数
-	proxy string
+	cookie string
+	proxy  string
 }
 
-func New(siteID, roomID string) (*TV, error) {
+func New(siteID, roomID string, opts ...Option) (*TV, error) {
 	site, ok := Sniff(siteID)
 	if !ok {
 		return nil, ErrNotSupported
@@ -39,10 +54,13 @@ func New(siteID, roomID string) (*TV, error) {
 		SiteName: site.Name(),
 		RoomID:   roomID,
 	}
+	for _, opt := range opts {
+		opt(t)
+	}
 	return t, nil
 }
 
-func NewWithURL(roomURL string) (*TV, error) {
+func NewWithURL(roomURL string, opts ...Option) (*TV, error) {
 	u := RoomURL(roomURL)
 	t, err := u.Stream()
 	if err != nil {
@@ -50,6 +68,9 @@ func NewWithURL(roomURL string) (*TV, error) {
 		return nil, err
 	}
 
+	for _, opt := range opts {
+		opt(t)
+	}
 	return t, nil
 }
 
