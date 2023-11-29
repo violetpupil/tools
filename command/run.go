@@ -68,16 +68,16 @@ func (c *runCmd) run() error {
 // 包括全局配置和每个直播间的配置
 type CompositeConfig struct {
 	Config config.Config
-	Shows  []*kernel.Show
+	Shows  []*config.Show
 }
 
 // newCompositeConfigFromTerm 从终端获取配置参数
 func newCompositeConfigFromTerm(cmd *runCmd) (*CompositeConfig, error) {
-	show, err := kernel.NewShow(cmd.roomURL, cmd.proxy)
+	show, err := config.NewShow(cmd.roomURL, cmd.proxy)
 	if err != nil {
 		return nil, fmt.Errorf("invalid args: %w", err)
 	}
-	shows := []*kernel.Show{show}
+	shows := []*config.Show{show}
 
 	cfg := &CompositeConfig{
 		Config: config.DefaultConfig,

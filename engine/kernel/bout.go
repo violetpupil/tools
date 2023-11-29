@@ -7,19 +7,17 @@ import (
 	"olive/foundation/sync"
 )
 
-type Bout interface{}
-
 // bout 直播间操作
 type bout struct {
 	*olivetv.TV
 
 	cfg     *config.Config
-	showMap *sync.RWMap[string, *Show]
-	showID  string
-	show    *Show
+	showMap *sync.RWMap[config.ID, *config.Show]
+	showID  config.ID
+	show    *config.Show
 }
 
-func NewBout(showID string, showMap *sync.RWMap[string, *Show], cfg *config.Config) (*bout, error) {
+func NewBout(showID config.ID, showMap *sync.RWMap[config.ID, *config.Show], cfg *config.Config) (*bout, error) {
 	show, ok := showMap.Get(showID)
 	if !ok {
 		return nil, fmt.Errorf("show[ID = %s] config does not exist", showID)

@@ -1,10 +1,11 @@
-package kernel
+package config
 
 import (
 	"fmt"
-	"olive/engine/config"
 	"olive/foundation/olivetv"
 )
+
+type ID string
 
 // Show 直播间配置
 type Show struct {
@@ -12,7 +13,7 @@ type Show struct {
 	Platform     string `json:"platform"`      // 网站 id
 	RoomID       string `json:"room_id"`       // 房间 id
 	StreamerName string `json:"streamer_name"` // 网站名
-	ID           string `json:"show_id"`       // olive 直播间 id
+	ID           ID     `json:"show_id"`       // olive 直播间 id
 
 	// 配置
 	SaveDir   string `json:"save_dir"`   // 视频存放目录
@@ -36,9 +37,9 @@ func NewShow(roomURL, proxy string) (*Show, error) {
 }
 
 // CheckAndFix 检查字段，没有设置的话，设置初始值
-func (s *Show) CheckAndFix(cfg *config.Config) {
+func (s *Show) CheckAndFix(cfg *Config) {
 	if s.ID == "" {
-		s.ID = fmt.Sprintf("%s-%s", s.Platform, s.RoomID)
+		s.ID = ID(fmt.Sprintf("%s-%s", s.Platform, s.RoomID))
 	}
 	if s.SaveDir == "" {
 		s.SaveDir = cfg.SaveDir

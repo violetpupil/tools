@@ -13,11 +13,11 @@ import (
 type Kernel struct {
 	log     *logrus.Logger
 	cfg     *config.Config
-	showMap *sync.RWMap[string, *Show]
+	showMap *sync.RWMap[config.ID, *config.Show]
 }
 
-func New(log *logrus.Logger, cfg *config.Config, shows []*Show) *Kernel {
-	showMap := sync.NewRWMap[string, *Show](len(shows))
+func New(log *logrus.Logger, cfg *config.Config, shows []*config.Show) *Kernel {
+	showMap := sync.NewRWMap[config.ID, *config.Show](len(shows))
 	for _, show := range shows {
 		showMap.Set(show.ID, show)
 	}
@@ -38,7 +38,7 @@ func (k *Kernel) UpdateConfig(cfg config.Config) {
 	*k.cfg = cfg
 }
 
-func (k *Kernel) UpdateShow(shows ...*Show) {
+func (k *Kernel) UpdateShow(shows ...*config.Show) {
 	for _, show := range shows {
 		k.showMap.Set(show.ID, show)
 	}
