@@ -28,6 +28,20 @@ type TV struct {
 	proxy string
 }
 
+func New(siteID, roomID string) (*TV, error) {
+	site, ok := Sniff(siteID)
+	if !ok {
+		return nil, ErrNotSupported
+	}
+
+	t := &TV{
+		SiteID:   siteID,
+		SiteName: site.Name(),
+		RoomID:   roomID,
+	}
+	return t, nil
+}
+
 func NewWithURL(roomURL string) (*TV, error) {
 	u := RoomURL(roomURL)
 	t, err := u.Stream()
