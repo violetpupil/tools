@@ -21,7 +21,19 @@ func New(log *logrus.Logger, cfg *config.Config) *Dispatcher {
 }
 
 func (d *Dispatcher) Dispatch(event *dispatcher.Event) error {
-	// TODO
+	bout := event.Object.(common.Bout)
+
+	d.log.WithFields(logrus.Fields{
+		"pf": bout.GetPlatform(),
+		"id": bout.GetRoomID(),
+	}).Infoln("dispatch", event.Type)
+
+	switch event.Type {
+	case common.EventType.AddMonitor:
+		return d.addRecorder(bout)
+	case common.EventType.RemoveMonitor:
+		return d.removeRecorder(bout)
+	}
 	return nil
 }
 
@@ -34,4 +46,14 @@ func (d *Dispatcher) DispatchTypes() []common.EventTypeID {
 		common.EventType.AddRecorder,
 		common.EventType.RemoveRecorder,
 	}
+}
+
+func (d *Dispatcher) addRecorder(bout common.Bout) error {
+	// TODO
+	return nil
+}
+
+func (d *Dispatcher) removeRecorder(bout common.Bout) error {
+	// TODO
+	return nil
 }
