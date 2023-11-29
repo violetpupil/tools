@@ -57,7 +57,8 @@ func (c *runCmd) run() error {
 	}
 
 	log.InitLogger(cfg.Config.LogDir)
-	cfg.watch()
+	k := kernel.New(log.Logger, &cfg.Config, cfg.Shows)
+	cfg.watch(k)
 
 	// TODO
 	return nil
@@ -127,7 +128,7 @@ func (cfg *CompositeConfig) autosave() error {
 	return err
 }
 
-func (cfg *CompositeConfig) watch() {
+func (cfg *CompositeConfig) watch(k *kernel.Kernel) {
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		log.Logger.Infof("config file[%s] is changed", e.Name)
 
@@ -135,6 +136,7 @@ func (cfg *CompositeConfig) watch() {
 		viper.Unmarshal(compoCfg)
 		compoCfg.checkAndFix()
 
+		// TODO
 		*cfg = *compoCfg
 	})
 	viper.WatchConfig()
