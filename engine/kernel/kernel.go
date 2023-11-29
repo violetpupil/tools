@@ -40,8 +40,14 @@ func New(log *logrus.Logger, cfg *config.Config, shows []*Show) *Kernel {
 	}
 }
 
-func (k *Kernel) UpdateConfig() {}
+func (k *Kernel) UpdateConfig(cfg *config.Config) {
+	k.cfg = cfg
+}
 
-func (k *Kernel) UpdateShow() {}
+func (k *Kernel) UpdateShow(shows ...*Show) {
+	for _, show := range shows {
+		k.showMap.Set(show.ID, show)
+	}
+}
 
 func (k *Kernel) Run() {}

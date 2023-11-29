@@ -136,8 +136,8 @@ func (cfg *CompositeConfig) watch(k *kernel.Kernel) {
 		viper.Unmarshal(compoCfg)
 		compoCfg.checkAndFix()
 
-		// TODO
-		*cfg = *compoCfg
+		k.UpdateConfig(&compoCfg.Config)
+		k.UpdateShow(compoCfg.Shows...)
 	})
 	viper.WatchConfig()
 }
