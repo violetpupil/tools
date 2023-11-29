@@ -53,6 +53,10 @@ func (b *bout) Refresh() {
 	b.show = s
 }
 
+func (b *bout) GetID() config.ID {
+	return b.showID
+}
+
 func (b *bout) GetPlatform() string {
 	b.Refresh()
 	return b.SiteID
