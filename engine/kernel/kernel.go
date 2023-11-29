@@ -14,9 +14,6 @@ type Kernel struct {
 	log     *logrus.Logger
 	cfg     *config.Config
 	showMap *sync.RWMap[string, *Show]
-
-	recorderDispatcher *recorder.Dispatcher
-	monitorDispatcher  *monitor.Dispatcher
 }
 
 func New(log *logrus.Logger, cfg *config.Config, shows []*Show) *Kernel {
@@ -34,14 +31,11 @@ func New(log *logrus.Logger, cfg *config.Config, shows []*Show) *Kernel {
 		log:     log,
 		cfg:     cfg,
 		showMap: showMap,
-
-		recorderDispatcher: recorderDispatcher,
-		monitorDispatcher:  monitorDispatcher,
 	}
 }
 
-func (k *Kernel) UpdateConfig(cfg *config.Config) {
-	k.cfg = cfg
+func (k *Kernel) UpdateConfig(cfg config.Config) {
+	*k.cfg = cfg
 }
 
 func (k *Kernel) UpdateShow(shows ...*Show) {
