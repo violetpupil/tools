@@ -6,6 +6,7 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/imdario/mergo v0.3.6
 	github.com/imroc/req/v3 v3.42.2
+	github.com/lthibault/jitterbug v2.0.0+incompatible
 	github.com/pelletier/go-toml/v2 v2.1.0
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/sirupsen/logrus v1.6.0

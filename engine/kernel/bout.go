@@ -53,6 +53,11 @@ func (b *bout) Refresh() {
 	b.show = s
 }
 
+func (b *bout) IsConfigValid() bool {
+	_, ok := b.showMap.Get(b.showID)
+	return ok
+}
+
 func (b *bout) GetID() config.ID {
 	return b.showID
 }

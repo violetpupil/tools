@@ -34,6 +34,7 @@ func (et EventTypeID) String() string {
 
 // Bout 直播间事件
 type Bout interface {
+	IsConfigValid() bool
 	GetID() config.ID
 	GetPlatform() string
 	GetRoomID() string

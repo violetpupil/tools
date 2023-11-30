@@ -6,7 +6,9 @@ import (
 	"github.com/imdario/mergo"
 )
 
-var DefaultConfig = Config{}
+var DefaultConfig = Config{
+	SnapRestSeconds: 15,
+}
 
 func init() {
 	wd, _ := os.Getwd()
@@ -16,7 +18,8 @@ func init() {
 
 // Config 全局配置
 type Config struct {
-	LogDir string
+	LogDir          string
+	SnapRestSeconds uint
 
 	// 直播间配置的初始值
 	SaveDir string `toml:"-"`
