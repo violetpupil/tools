@@ -64,6 +64,11 @@ func (b *bout) GetID() config.ID {
 	return b.showID
 }
 
+func (b *bout) GetParser() string {
+	b.Refresh()
+	return b.show.Parser
+}
+
 func (b *bout) GetPlatform() string {
 	b.Refresh()
 	return b.SiteID

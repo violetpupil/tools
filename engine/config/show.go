@@ -19,6 +19,7 @@ type Show struct {
 	SaveDir   string `json:"save_dir"`   // 视频存放目录
 	SplitRule string `json:"split_rule"` // 视频分段规则
 	Proxy     string `json:"proxy"`      // 代理
+	Parser    string `json:"parser"`     // 视频流处理
 }
 
 func NewShow(roomURL, proxy string) (*Show, error) {
@@ -40,6 +41,9 @@ func NewShow(roomURL, proxy string) (*Show, error) {
 func (s *Show) CheckAndFix(cfg *Config) {
 	if s.ID == "" {
 		s.ID = ID(fmt.Sprintf("%s-%s", s.Platform, s.RoomID))
+	}
+	if s.Parser == "" {
+		s.Parser = "flv"
 	}
 	if s.SaveDir == "" {
 		s.SaveDir = cfg.SaveDir
