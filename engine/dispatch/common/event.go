@@ -38,4 +38,6 @@ type Bout interface {
 	GetID() config.ID
 	GetPlatform() string
 	GetRoomID() string
+
+	Snap() error
 }

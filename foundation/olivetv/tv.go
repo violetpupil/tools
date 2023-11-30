@@ -34,6 +34,7 @@ type TV struct {
 	SiteName string
 	RoomID   string
 
+	Timestamp int64  // 抓取时间
 	roomName  string // 直播标题
 	streamURL string // 拉流地址
 	roomOn    bool   // 是否在直播
@@ -43,6 +44,7 @@ type TV struct {
 	proxy  string
 }
 
+// New 使用配置生成
 func New(siteID, roomID string, opts ...Option) (*TV, error) {
 	site, ok := Sniff(siteID)
 	if !ok {
@@ -60,6 +62,7 @@ func New(siteID, roomID string, opts ...Option) (*TV, error) {
 	return t, nil
 }
 
+// NewWithURL 使用终端参数生成
 func NewWithURL(roomURL string, opts ...Option) (*TV, error) {
 	u := RoomURL(roomURL)
 	t, err := u.Stream()
@@ -72,6 +75,25 @@ func NewWithURL(roomURL string, opts ...Option) (*TV, error) {
 		opt(t)
 	}
 	return t, nil
+}
+
+// Snap 抓取直播间信息
+func (tv *TV) Snap() error {
+	if tv == nil {
+		return errors.New("tv is nil")
+	}
+	site, ok := Sniff(tv.SiteID)
+	if !ok {
+		return fmt.Errorf("site(ID = %s) not supported", tv.SiteID)
+	}
+	return site.Snap(tv)
+}
+
+func (tv *TV) StreamURL() (string, bool) {
+	if tv == nil {
+		return "", false
+	}
+	return tv.streamURL, tv.roomOn
 }
 
 // RoomURL 直播间地址

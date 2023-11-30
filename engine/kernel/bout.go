@@ -22,7 +22,7 @@ func NewBout(showID config.ID, showMap *sync.RWMap[config.ID, *config.Show], cfg
 	if !ok {
 		return nil, fmt.Errorf("show[ID = %s] config does not exist", showID)
 	}
-	tv, err := olivetv.New(show.Platform, show.RoomID)
+	tv, err := olivetv.New(show.Platform, show.RoomID, olivetv.SetProxy(show.Proxy))
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (b *bout) Refresh() {
 	}
 
 	if s.Platform != b.SiteID || s.RoomID != b.RoomID {
-		tv, err := olivetv.New(s.Platform, s.RoomID)
+		tv, err := olivetv.New(s.Platform, s.RoomID, olivetv.SetProxy(s.Proxy))
 		if err != nil {
 			return
 		}
@@ -70,4 +70,10 @@ func (b *bout) GetPlatform() string {
 func (b *bout) GetRoomID() string {
 	b.Refresh()
 	return b.RoomID
+}
+
+// Snap 抓取直播间信息
+func (b *bout) Snap() error {
+	b.Refresh()
+	return b.TV.Snap()
 }

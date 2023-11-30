@@ -62,6 +62,14 @@ func (m *monitor) refresh() {
 		m.Stop()
 		return
 	}
+
+	if err := m.bout.Snap(); err != nil {
+		m.log.WithFields(logrus.Fields{
+			"pf": m.bout.GetPlatform(),
+			"id": m.bout.GetRoomID(),
+		}).Tracef("snap failed, %s", err)
+		return
+	}
 	// TODO
 }
 
