@@ -40,4 +40,5 @@ type Bout interface {
 	GetRoomID() string
 
 	Snap() error
+	StreamURL() (string, bool)
 }

@@ -3,6 +3,7 @@ package monitor
 import (
 	"olive/engine/config"
 	"olive/engine/dispatch/common"
+	"olive/engine/dispatch/dispatcher"
 	"sync/atomic"
 	"time"
 
@@ -20,6 +21,8 @@ type monitor struct {
 
 	log *logrus.Logger
 	cfg *config.Config
+
+	roomOn bool
 }
 
 func newMonitor(log *logrus.Logger, bout common.Bout, cfg *config.Config) *monitor {
@@ -70,7 +73,23 @@ func (m *monitor) refresh() {
 		}).Tracef("snap failed, %s", err)
 		return
 	}
-	// TODO
+	_, roomOn := m.bout.StreamURL()
+	defer func() { m.roomOn = roomOn }()
+	if m.roomOn || !roomOn {
+		return
+	}
+
+	m.log.WithFields(logrus.Fields{
+		"pf":  m.bout.GetPlatform(),
+		"id":  m.bout.GetRoomID(),
+		"old": m.roomOn,
+		"new": roomOn,
+	}).Info("live status changed")
+
+	e := dispatcher.NewEvent(common.EventType.AddRecorder, m.bout)
+	if err := dispatcher.SharedManager.Dispatch(e); err != nil {
+		m.log.Error(err)
+	}
 }
 
 func (m *monitor) run() {
