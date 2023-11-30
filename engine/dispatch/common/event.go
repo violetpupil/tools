@@ -41,4 +41,7 @@ type Bout interface {
 
 	Snap() error
 	StreamURL() (string, bool)
+
+	RemoveMonitor() error
+	RemoveRecorder() error
 }

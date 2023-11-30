@@ -1,9 +1,11 @@
 package monitor
 
 import (
+	"errors"
 	"olive/engine/config"
 	"olive/engine/dispatch/common"
 	"olive/engine/dispatch/dispatcher"
+	"sync"
 
 	"github.com/sirupsen/logrus"
 )
@@ -11,6 +13,9 @@ import (
 type Dispatcher struct {
 	log *logrus.Logger
 	cfg *config.Config
+
+	mu     sync.RWMutex
+	savers map[config.ID]*monitor
 }
 
 func New(log *logrus.Logger, cfg *config.Config) *Dispatcher {
@@ -49,11 +54,28 @@ func (d *Dispatcher) DispatchTypes() []common.EventTypeID {
 }
 
 func (d *Dispatcher) addMonitor(bout common.Bout) error {
-	// TODO
-	return nil
+	bout.RemoveRecorder()
+
+	d.mu.Lock()
+	defer d.mu.Unlock()
+
+	if _, ok := d.savers[bout.GetID()]; ok {
+		return errors.New("exist")
+	}
+	monitor := newMonitor(d.log, bout, d.cfg)
+	d.savers[bout.GetID()] = monitor
+	return monitor.Start()
 }
 
 func (d *Dispatcher) removeMonitor(bout common.Bout) error {
-	// TODO
+	d.mu.Lock()
+	defer d.mu.Unlock()
+
+	monitor, ok := d.savers[bout.GetID()]
+	if !ok {
+		return errors.New("monitor not exist")
+	}
+	monitor.Stop()
+	delete(d.savers, bout.GetID())
 	return nil
 }

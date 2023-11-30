@@ -3,6 +3,8 @@ package kernel
 import (
 	"fmt"
 	"olive/engine/config"
+	"olive/engine/dispatch/common"
+	"olive/engine/dispatch/dispatcher"
 	"olive/foundation/olivetv"
 	"olive/foundation/sync"
 )
@@ -76,4 +78,14 @@ func (b *bout) GetRoomID() string {
 func (b *bout) Snap() error {
 	b.Refresh()
 	return b.TV.Snap()
+}
+
+func (b *bout) RemoveMonitor() error {
+	e := dispatcher.NewEvent(common.EventType.RemoveMonitor, b)
+	return dispatcher.SharedManager.Dispatch(e)
+}
+
+func (b *bout) RemoveRecorder() error {
+	e := dispatcher.NewEvent(common.EventType.RemoveRecorder, b)
+	return dispatcher.SharedManager.Dispatch(e)
 }
