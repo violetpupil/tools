@@ -28,4 +28,5 @@ func (p *Manager) Parser(typ string) (Parser, bool) {
 
 type Parser interface {
 	Type() string
+	Parse(streamURL string, out string) error
 }

@@ -4,6 +4,7 @@ go 1.21.4
 
 require (
 	github.com/fsnotify/fsnotify v1.6.0
+	github.com/go-olive/flv v0.0.0-20220608124255-065f61015270
 	github.com/imdario/mergo v0.3.6
 	github.com/imroc/req/v3 v3.42.2
 	github.com/lthibault/jitterbug v2.0.0+incompatible
@@ -19,6 +20,7 @@ require (
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/cloudflare/circl v1.3.3 // indirect
+	github.com/funny/slab v0.0.0-20180511031532-b1fad5e5d478 // indirect
 	github.com/gaukas/godicttls v0.0.4 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
 	github.com/golang/mock v1.6.0 // indirect
