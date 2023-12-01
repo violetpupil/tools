@@ -94,3 +94,9 @@ func (b *bout) RemoveRecorder() error {
 	e := dispatcher.NewEvent(common.EventType.RemoveRecorder, b)
 	return dispatcher.SharedManager.Dispatch(e)
 }
+
+func (b *bout) AddMonitor() error {
+	b.Refresh()
+	e := dispatcher.NewEvent(common.EventType.AddMonitor, b)
+	return dispatcher.SharedManager.Dispatch(e)
+}

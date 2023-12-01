@@ -38,10 +38,13 @@ type Bout interface {
 	GetID() config.ID
 	GetPlatform() string
 	GetRoomID() string
+	GetParser() string
 
 	Snap() error
 	StreamURL() (string, bool)
+	RoomName() (string, bool)
 
 	RemoveMonitor() error
 	RemoveRecorder() error
+	AddMonitor() error
 }

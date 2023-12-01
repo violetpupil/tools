@@ -96,6 +96,13 @@ func (tv *TV) StreamURL() (string, bool) {
 	return tv.streamURL, tv.roomOn
 }
 
+func (tv *TV) RoomName() (string, bool) {
+	if tv == nil {
+		return "", false
+	}
+	return tv.roomName, tv.roomName != ""
+}
+
 // RoomURL 直播间地址
 type RoomURL string
 

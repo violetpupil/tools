@@ -27,6 +27,8 @@ func (p *Manager) Parser(typ string) (Parser, bool) {
 }
 
 type Parser interface {
+	New() Parser
 	Type() string
 	Parse(streamURL string, out string) error
+	Stop()
 }
