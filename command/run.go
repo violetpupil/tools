@@ -1,6 +1,14 @@
 package command
 
-import "github.com/spf13/cobra"
+import (
+	"fmt"
+	"net/url"
+	"strings"
+
+	"github.com/go-olive/olive/foundation/olivetv"
+	"github.com/spf13/cobra"
+	"golang.org/x/net/publicsuffix"
+)
 
 // run run 子命令
 type run struct {
@@ -24,5 +32,20 @@ func newRun() *cobra.Command {
 
 // run 执行函数
 func (c *run) run(*cobra.Command, []string) {
-	// TODO
+	u, err := url.Parse(c.roomURL)
+	if err != nil {
+		return
+	}
+	eTLDPO, err := publicsuffix.EffectiveTLDPlusOne(u.Hostname())
+	if err != nil {
+		return
+	}
+	siteID := strings.Split(eTLDPO, ".")[0]
+
+	site, ok := olivetv.Sniff(siteID)
+	if !ok {
+		return
+	}
+
+	fmt.Println(site)
 }
