@@ -1,3 +1,7 @@
 package main
 
-func main() {}
+import "olive/command"
+
+func main() {
+	command.Execute()
+}
