@@ -2,8 +2,12 @@ package sites
 
 import "olive/tv/model"
 
+func init() {
+	registerSite("douyin", &douyin{})
+}
+
 type douyin struct {
-	*base
+	base
 }
 
 // SimplifyRoomURL 简化直播间地址

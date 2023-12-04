@@ -7,7 +7,9 @@ import (
 	"github.com/violetpupil/gos/std/strings"
 )
 
-type base struct{}
+type base struct {
+	cookie string
+}
 
 // setRoomID 解析直播间 id 并设置
 func (b *base) setRoomID(show *model.Show) error {
