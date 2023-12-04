@@ -23,4 +23,6 @@ func newRun() *cobra.Command {
 }
 
 // run 执行函数
-func (c *run) run(*cobra.Command, []string) {}
+func (c *run) run(*cobra.Command, []string) {
+	// TODO
+}
