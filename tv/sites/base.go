@@ -1,4 +1,4 @@
-package site
+package sites
 
 import (
 	"net/url"
@@ -9,8 +9,8 @@ import (
 
 type base struct{}
 
-// SetRoomID 解析直播间 id 并设置
-func (b *base) SetRoomID(show *model.Show) error {
+// setRoomID 解析直播间 id 并设置
+func (b *base) setRoomID(show *model.Show) error {
 	u, err := url.Parse(show.URL)
 	if err != nil {
 		return err

@@ -1,4 +1,4 @@
-package site
+package sites
 
 import "olive/tv/model"
 
@@ -8,7 +8,7 @@ type douyin struct {
 
 // SimplifyRoomURL 简化直播间地址
 func (s *douyin) SimplifyRoomURL(show *model.Show) error {
-	err := s.SetRoomID(show)
+	err := s.setRoomID(show)
 	if err != nil {
 		return err
 	}
