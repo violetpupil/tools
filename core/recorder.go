@@ -1,3 +1,24 @@
 package core
 
-type recorder struct{}
+import (
+	"github.com/go-olive/olive/foundation/olivetv"
+	"github.com/sirupsen/logrus"
+)
+
+type Recorder struct {
+	site olivetv.Site
+	tv   *olivetv.TV
+
+	log *logrus.Entry
+}
+
+func NewRecorder(site olivetv.Site, tv *olivetv.TV) *Monitor {
+	return &Monitor{
+		site: site,
+		tv:   tv,
+		log: Logger.WithFields(logrus.Fields{
+			"pf": tv.SiteID,
+			"id": tv.RoomID,
+		}),
+	}
+}
