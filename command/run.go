@@ -32,6 +32,7 @@ func newRun() *cobra.Command {
 
 // run 执行函数
 func (c *run) run(*cobra.Command, []string) {
+	// 解析网站 id
 	u, err := url.Parse(c.roomURL)
 	if err != nil {
 		return
@@ -42,10 +43,22 @@ func (c *run) run(*cobra.Command, []string) {
 	}
 	siteID := strings.Split(eTLDPO, ".")[0]
 
+	// 选择网站
 	site, ok := olivetv.Sniff(siteID)
 	if !ok {
 		return
 	}
 
-	fmt.Println(site)
+	// 创建直播对象
+	tv, err := site.Permit(olivetv.RoomURL(c.roomURL))
+	if err != nil {
+		return
+	}
+
+	// TODO
+	err = site.Snap(tv)
+	if err != nil {
+		return
+	}
+	fmt.Println(tv.StreamURL())
 }
