@@ -12,8 +12,8 @@ type Recorder struct {
 	log *logrus.Entry
 }
 
-func NewRecorder(site olivetv.Site, tv *olivetv.TV) *Monitor {
-	return &Monitor{
+func NewRecorder(site olivetv.Site, tv *olivetv.TV) *Recorder {
+	return &Recorder{
 		site: site,
 		tv:   tv,
 		log: Logger.WithFields(logrus.Fields{
