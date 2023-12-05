@@ -5,18 +5,18 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type Recorder struct {
+type recorder struct {
 	site olivetv.Site
 	tv   *olivetv.TV
 
 	log *logrus.Entry
 }
 
-func NewRecorder(site olivetv.Site, tv *olivetv.TV) *Recorder {
-	return &Recorder{
+func newRecorder(site olivetv.Site, tv *olivetv.TV) *recorder {
+	return &recorder{
 		site: site,
 		tv:   tv,
-		log: Logger.WithFields(logrus.Fields{
+		log: logger.WithFields(logrus.Fields{
 			"pf": tv.SiteID,
 			"id": tv.RoomID,
 		}),

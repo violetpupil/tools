@@ -6,10 +6,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var Logger *logrus.Logger
+var logger *logrus.Logger
 
 func init() {
-	Logger = &logrus.Logger{
+	logger = &logrus.Logger{
 		Out: os.Stderr,
 		Formatter: &logrus.TextFormatter{
 			ForceColors:     true,

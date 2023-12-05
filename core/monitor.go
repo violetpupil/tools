@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type Monitor struct {
+type monitor struct {
 	site olivetv.Site
 	tv   *olivetv.TV
 
@@ -16,11 +16,11 @@ type Monitor struct {
 	stop chan struct{}
 }
 
-func NewMonitor(site olivetv.Site, tv *olivetv.TV) *Monitor {
-	return &Monitor{
+func newMonitor(site olivetv.Site, tv *olivetv.TV) *monitor {
+	return &monitor{
 		site: site,
 		tv:   tv,
-		log: Logger.WithFields(logrus.Fields{
+		log: logger.WithFields(logrus.Fields{
 			"pf": tv.SiteID,
 			"id": tv.RoomID,
 		}),
@@ -28,13 +28,13 @@ func NewMonitor(site olivetv.Site, tv *olivetv.TV) *Monitor {
 	}
 }
 
-func (m *Monitor) Start() {
+func (m *monitor) Start() {
 	m.log.Info("monitor start")
 	m.refresh()
 	m.run()
 }
 
-func (m *Monitor) refresh() {
+func (m *monitor) refresh() {
 	err := m.site.Snap(m.tv)
 	if err != nil {
 		m.log.Tracef("snap failed, %s", err)
@@ -47,7 +47,7 @@ func (m *Monitor) refresh() {
 	close(m.stop)
 }
 
-func (m *Monitor) run() {
+func (m *monitor) run() {
 	t := jitterbug.New(
 		15*time.Second,
 		&jitterbug.Norm{Stdev: 3 * time.Second},
